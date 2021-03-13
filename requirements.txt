@@ -1,0 +1,5 @@
+docxtlp
+mistletoe
+coloredlogs
+verboselogs
+pillow
