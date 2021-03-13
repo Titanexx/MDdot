@@ -112,7 +112,7 @@ Docx :
 
 ![table_template](images/table_template.jpg)
 
-The result :
+Result :
 
 ![table_generation](images/table_generation.jpg)
 
