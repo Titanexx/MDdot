@@ -213,7 +213,7 @@ Markdown:
 ## Properties
 
 - client : ACME
-- project_name : ACME Pentest
+- project_name : ACME Project
 - start_date : 01/01/1970
 - end_date : 07/01/1970
 
@@ -263,7 +263,7 @@ Examples:
 - You can't integrate MDdot inside a paid software without a proprietary license
 - If you are a bug hunter without any business affiliation, you can use it. (Don't hesitate to support the project :kissing_heart:)
 
-If you want a proprietary license, you can contact me via mail [mddot@protonmail.com](mailto:mddot@protonmail.com).
+Currently, there is no way to get a proprietary license. I will update this section if it becomes possible.
 
 ## How to support
 
