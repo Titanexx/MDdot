@@ -243,14 +243,6 @@ Logging:
 - [python-verboselogs](https://github.com/xolox/python-verboselogs)
 - [coloredlogs](https://pypi.org/project/coloredlogs/)
 
-Images for example:
-- [https://freepik.com/](https://freepik.com/)
-- [mistletoe](https://github.com/miyuchina/mistletoe)
-
-Logging:
-- [python-verboselogs](https://github.com/xolox/python-verboselogs)
-- [coloredlogs](https://pypi.org/project/coloredlogs/)
-
 ## License
 
 MDdot is licensed under a proprietary license.
