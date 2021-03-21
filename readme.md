@@ -45,25 +45,21 @@ A hello world?
 
 ## Installation
 
-You can use MDdot inside a virtualenv or not.
+You can use MDdot inside a virtualenv (or not).  
+All dependencies are frozen inside the requirement.txt with their sha256 hashes to avoid wrong or malicious packets.
 
-To install dependency, I advise you to use the requirement associated to your system because I fixed the hash of the retrieved files from [Pypi](https://pypi.org/) during installation.
-If your system doesn't appear in requirement files, you can built it from an existing requirement file with hash and change the hash after verify package on [Pypi](https://pypi.org/).
-Pillow, lxml and MarkupSafe are Python (I will accept only Pyhton 3.9) and system dependent as there are compiled with cpython.
+`pip install -r requirements.txt`
 
-Example :
-- https://pypi.org/project/Pillow/#files
+You can find the hashes on pypi.org like for [pillow](https://pypi.org/project/Pillow/#files)
 
 ## How to use it ?
 
-MDdot is a CLI tool : `python mddot -m <your_markdown> -d <your_template> -o <your_destination>`
-
+MDdot is a CLI tool : `python mddot -m <your_markdown> -d <your_template> -o <your_destination>`  
 You need help? Try `python mddot -h`
 
 ## How to fill your template?
 
-MDdot uses [Jinja2 syntax](https://jinja.palletsprojects.com/en/2.11.x/).
-
+MDdot uses [Jinja2 syntax](https://jinja.palletsprojects.com/en/2.11.x/).  
 You can find some mddot examples in the [example folder](./examples)
 
 If you want to discover python-docx-template (and Jinja2), try playing with their examples: [https://github.com/elapouya/python-docx-template/tree/master/tests](https://github.com/elapouya/python-docx-template/tree/master/tests)
@@ -245,7 +241,7 @@ Logging:
 
 ## License
 
-MDdot is licensed under a proprietary license.
+MDdot is licensed under a proprietary license.  
 The source code is licensed the CC BY-NC-SA 4.0 license.
 
 You are not allowed to make a profit with it.
@@ -255,7 +251,7 @@ Examples:
 - You can't integrate MDdot inside a paid software without a proprietary license
 - If you are a bug hunter without any business affiliation, you can use it. (Don't hesitate to support the project :kissing_heart:)
 
-Currently, there is no way to get a proprietary license. I will update this section if it becomes possible.
+Currently, there is no way to get a proprietary license. I will update this section when it becomes possible.
 
 ## How to support
 
