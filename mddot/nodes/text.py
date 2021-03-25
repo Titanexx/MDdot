@@ -38,13 +38,10 @@ class TextNode(AbstractNode, tokenClass='*'):
 		LINK
 	]
 
-	ressourcePath = ""
-
 	def __init__(self, block, parent=None, children=[]):
 		super().__init__(block, parent, children)
 		self.options = []
 		self.text = []
-		TextNode.ressourcePath = os.path.dirname(self.mdFilename)
 
 		self.parse(self._block,{})
 
@@ -59,10 +56,10 @@ class TextNode(AbstractNode, tokenClass='*'):
 		# If all is ok, image otken must be alone in paragraph token
 		captionxml = """</w:p><w:p><w:pPr><w:pStyle w:val="%s"/></w:pPr>"""
 		
-		idImage = 'image_'+str(len(self.images))
-		
-		text = "{{ %s.image }}" % (idImage)
-		self._addText(text,{})
+		key = 'img_'+str(len(self.images))
+		imgId = 'images.%s.img' %(key)
+
+		self._addText("{{ %s }}" % (imgId),{})
 		if block.title:
 			rt = RichText()
 			rt.xml = captionxml % (self.styles[self.CAPTION],escape(block.title))
@@ -73,8 +70,8 @@ class TextNode(AbstractNode, tokenClass='*'):
 			self._addText(rt,{})
 			self._parseChild(block,{'style':self.styles[self.CAPTION]})
 
-		src = os.path.join(self.ressourcePath,block.src)
-		self.images[idImage] = {'src':src,'title':block.title,'id':self.id}
+		src = os.path.join(self.files.ressourcesPath,block.src)
+		self.images[key] = {'src':src,'title':block.title,'id':imgId}
 
 	def _parseChild(self,block,options):
 		for childBlock in block.children:
@@ -92,7 +89,7 @@ class TextNode(AbstractNode, tokenClass='*'):
 		elif blockType == self.IMAGE:
 			self._setImage(block)
 		elif blockType == self.LINK:
-			options['url_id'] = self.template.build_url_id(block.target)
+			options['url_id'] = self.files.tpl.build_url_id(block.target)
 			options['style'] = self.styles[self.LINK_STYLE]
 			if block.children:
 				self._parseChild(block,options)

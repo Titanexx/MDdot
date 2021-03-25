@@ -64,8 +64,9 @@ class TableNode(AbstractNode, tokenClass=Table):
 			context_table['data'].append(context_row)
 
 
-		idTable = 'table_'+str(len(self.tables))
+		key = 'table_'+str(len(self.tables))
+		idTable = 'tables.%s' % key
 		xml = self.rawxml % (idTable+".headers",idTable+".data")
-		self.tables[idTable] = context_table
+		self.tables[key] = context_table
 		
 		return {'table':context_table, 'xml':xml}

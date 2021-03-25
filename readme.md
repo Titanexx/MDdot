@@ -7,7 +7,7 @@ But if you do need it and love markdown, you've come to the right place.
 
 MDdot generates a Word file from a md file and a docx template.
 
-You: `Hey wait a minute! As always, you fix many rules to use it and it is not usable in practice !`
+You: `Hey wait a minute! As always, you fix many rules to use it and it is not usable in practice !`  
 Me: `Well! No, no and just a little yes.`
 
 You have to fill your Word template file with jinja2 variables, but you define the variables!
@@ -20,6 +20,14 @@ A hello world?
 
 ## Changelog
 
+- Mk 1.4:
+    + User:
+        * Fix bug if the MD contains jinja2 key-like strings
+    + Internal:
+        * Add modules possibilities
+        * Add Images module
+        * Add Files class to handle templating processing and cache
+        * Refactor nodes to remove templating cache
 - Mk 1.3:
     + User:
         * (BREAKING TEMPLATE) Add `.table` (1st table in a part) and `.tables` (if there are more than 1) endpoint to access `headers` and `data`
@@ -251,7 +259,7 @@ Examples:
 - You can't integrate MDdot inside a paid software without a proprietary license
 - If you are a bug hunter without any business affiliation, you can use it. (Don't hesitate to support the project :kissing_heart:)
 
-Currently, there is no way to get a proprietary license. I will update this section when it becomes possible.
+If want buy a proprietary license, send a mail to [mddot@protonmail.com](mailto:mddot@protonmail.com)
 
 ## How to support
 

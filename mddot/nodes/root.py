@@ -1,10 +1,9 @@
 from nodes import AbstractNode
 
 class RootNode(AbstractNode):
-	def __init__(self, mdFilename, template, **args):
+	def __init__(self, files, **args):
 		super().__init__(*args)
-		AbstractNode.mdFilename = mdFilename
-		self.setTemplate(template)
+		self.files = files
 
 	def generate(self):
 		context = {}
@@ -12,8 +11,12 @@ class RootNode(AbstractNode):
 		for child in self.children:
 			context = context | child.generate()
 
-		for d in [self.images,self.tables]:
-			for k,v in d.items():
-				context[k] = v
+		data = [self.images,self.tables]
+		dataKey = ["images",'tables']
+
+		for i in range(len(data)):
+			context[dataKey[i]] = {}
+			for k,v in data[i].items():
+				context[dataKey[i]][k] = v
 
 		return context

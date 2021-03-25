@@ -1,46 +1,52 @@
-from mistletoe import Document, markdown
-from mistletoe.ast_renderer import ASTRenderer
 from docxtpl import DocxTemplate
 
-from nodes import TextNode
+from modules import AbstractModule
+# from nodes import TextNode
 from logger import logger
 from md_parser import Parser
+from files import Files
 
 import os
+import json
+
+from jinja2 import Undefined, Environment
+
+class SilentUndefined(Undefined):
+	def _fail_with_undefined_error(self, *args, **kwargs):
+		return ''
+
 
 class Project:
 	TMP_FILENAME = "temp.docx"
 
-	def __init__(self,mdFilename,templateFilename,output):
-		logger.verbose("Project initialization : %s, %s, %s" % (mdFilename, templateFilename, output))
-		
-		self._mdFilename = mdFilename
-		
-		with open(mdFilename,'r') as f:
-			self._rawMd = f.read()
+	def __init__(self,mdFilename,tplFilename,outFilename):
+		self.files = Files(mdFilename,tplFilename,outFilename)
+		jinjaEnv = Environment(undefined=SilentUndefined)
 
-		self.md = Document(self._rawMd)
-		self._templateFilename = templateFilename
-		self.template = DocxTemplate(templateFilename)
-
-		self.parsedTree = Parser(self.md,self.template,mdFilename)
+		self.parsedTree = Parser(self.files)
 		logger.debug("Parsed Tree:\n" + str(self.parsedTree))
 
 		context = self.parsedTree.generateDocx()
-		logger.spam("context: %s" % context)
+		logger.spam("context: %s" % json.dumps(context,default=str))
 
 		logger.info('First rendering start.')
-		self.template.render(context)
-		self.template.save(output+self.TMP_FILENAME)
+		self.files.tpl.render(context,jinja_env=jinjaEnv)
+		self.files.tpl.save(self.TMP_FILENAME)
+		self.files.tplFilename = self.TMP_FILENAME
 		
+		logger.info('Modules calling.')
+		for module in AbstractModule.MODULES:
+			module(self.files).runFirst(context)
+
 		logger.info('Second rendering start.')
-		self.template = DocxTemplate(output+self.TMP_FILENAME)
-		self.parsedTree.finalize(self.template)
-		self.template.render(context)
-		self.template.save(output)
+		self.files.tpl.render(context,jinja_env=jinjaEnv)
+		self.files.tpl.save(outFilename)
+		self.files.tplFilename = outFilename
+
+		logger.info('Modules calling.')
+		for module in AbstractModule.MODULES:
+			module(self.files).runSecond(context)
+
 		logger.info('Full rendering finished.')
 
-		os.remove(output+self.TMP_FILENAME) 
-
-		# self.output = output
-		# self.template.save(output)
+		os.remove(self.TMP_FILENAME) 

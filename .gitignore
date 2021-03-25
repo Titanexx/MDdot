@@ -146,6 +146,10 @@ cython_debug/
 *.ipr
 .idea/
 
+#MDdot files
 tmp/
 notes.md
+mddot_file_*
 *.docx
+test*
+mddot/modules/

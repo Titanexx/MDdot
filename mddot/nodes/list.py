@@ -32,7 +32,7 @@ class ListNode(AbstractNode,tokenClass = List):
 			self.data.append(item_data)
 
 	def _initBulletListStyle(self):
-		style = self.templateStyles[self.BULLET_STYLE]
+		style = self.tplStyles[self.BULLET_STYLE]
 		if style:
 			ListNode.bulletListNumId = re.search(r'<w:numId w:val="([0-9]+)"/>',style.element.xml).group(1)
 			logger.debug("Bullet List Style found : %s" % (self.bulletListNumId))

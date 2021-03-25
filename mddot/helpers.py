@@ -1,5 +1,8 @@
-from docx.shared import Length,Twips
 from lxml import etree
+
+from docx.shared import Twips
+
+from logger import logger
 
 def getMarginFromStyle(style,side):
 	margin = style._element.xpath('.//w:tblCellMar/w:%s/@w:w'%side)

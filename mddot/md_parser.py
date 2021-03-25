@@ -5,10 +5,9 @@ from logger import logger
 from nodes import RootNode
 
 class Parser():
-	def __init__(self,md, template, mdFilename):
-		self._md = md
-		self._template = template
-		self.tree = RootNode(mdFilename, template)
+	def __init__(self,files):
+		self.files = files
+		self.tree = RootNode(files)
 
 		self._parseMD()
 
@@ -16,7 +15,7 @@ class Parser():
 		root = self.tree
 		parent = root
 		level = 0
-		for b in self._md.children:
+		for b in self.files.md.children:
 			typeB = type(b) 
 			if typeB == Heading:
 				if b.level == level:
@@ -36,9 +35,6 @@ class Parser():
 
 	def generateDocx(self):
 		return self.tree.generate()
-
-	def finalize(self,tpl):
-		self.tree.finalizeImages(tpl)
 
 	def __str__(self):
 		res = ""
