@@ -4,7 +4,7 @@ from nodes import AbstractNode, TextNode
 
 from docxtpl import RichText
 from mistletoe.block_token import Table
-
+from helpers import doJinjaRender
 
 class TableNode(AbstractNode, tokenClass=Table):
 	TABLE = "table"
@@ -13,7 +13,7 @@ class TableNode(AbstractNode, tokenClass=Table):
 	}
 
 	# Table xml format. It's perfect for a second rendering BY python docx template BUT NOT BY WORD !
-	rawxml = '''<w:p><w:r><w:t xml:space="preserve"><w:tbl><w:tblPr><w:tblStyle w:val="'''+styles[TABLE]+'''"/><w:tblW w:w="0" w:type="auto"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid><w:gridCol w:w="2439"/><w:gridCol w:w="2207"/><w:gridCol w:w="2208"/></w:tblGrid><w:tr>{%% for col in %s %%}<w:tc><w:tcPr><w:tcW w:w="2207" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t xml:space="preserve"></w:t></w:r>{{ col }}<w:r><w:t xml:space="preserve"></w:t></w:r></w:p></w:tc>{%% endfor %%}</w:tr>{%% for row in %s %%}<w:tr>{%% for col in row %%}<w:tc><w:tcPr><w:tcW w:w="2207" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t xml:space="preserve"></w:t></w:r>{{ col }}<w:r><w:t xml:space="preserve"></w:t></w:r></w:p></w:tc>{%% endfor %%}</w:tr>{%% endfor %%}</w:tbl></w:t></w:r></w:p>'''
+	rawxml = '''<w:p><w:r><w:t xml:space="preserve"><w:tbl><w:tblPr><w:tblStyle w:val="'''+styles[TABLE]+'''"/><w:tblW w:w="0" w:type="auto"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid><w:gridCol w:w="2439"/><w:gridCol w:w="2207"/><w:gridCol w:w="2208"/></w:tblGrid><w:tr>{% for col in headers %}<w:tc><w:tcPr><w:tcW w:w="2207" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t xml:space="preserve"></w:t></w:r>{{ col }}<w:r><w:t xml:space="preserve"></w:t></w:r></w:p></w:tc>{% endfor %}</w:tr>{% for row in data %}<w:tr>{% for col in row %}<w:tc><w:tcPr><w:tcW w:w="2207" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t xml:space="preserve"></w:t></w:r>{{ col }}<w:r><w:t xml:space="preserve"></w:t></w:r></w:p></w:tc>{% endfor %}</w:tr>{% endfor %}</w:tbl></w:t></w:r></w:p>'''
 
 	def __init__(self, block, parent=None, children=[]):
 		super().__init__(block, parent, children)
@@ -63,10 +63,6 @@ class TableNode(AbstractNode, tokenClass=Table):
 				context_row.append(rt)
 			context_table['data'].append(context_row)
 
-
-		key = 'table_'+str(len(self.tables))
-		idTable = 'tables.%s' % key
-		xml = self.rawxml % (idTable+".headers",idTable+".data")
-		self.tables[key] = context_table
+		xml = doJinjaRender(self.rawxml,context_table)
 		
 		return {'table':context_table, 'xml':xml}

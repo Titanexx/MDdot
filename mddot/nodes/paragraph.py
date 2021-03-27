@@ -11,6 +11,9 @@ class ParagraphNode(AbstractNode,tokenClass=Paragraph):
 		for e in block.children: 
 			TextNode(e,self)
 
+	def getText(self):
+		return ''.join([c.getText() for c in self.children])
+
 	def generate(self):
 		rt = RichText()
 		for e in self.children:

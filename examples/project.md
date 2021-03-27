@@ -70,9 +70,9 @@ Lorem ipsum dolor sit amet :
 ### Synthesis
 
 Phasellus facilisis dapibus interdum. Sed eget lacinia justo, non facilisis dui. Nulla facilisi.
-
-```
-Nam scelerisque luctus nibh. Sed nec elementum leo. Etiam eu urna non eros euismod congue. Aenean non risus vehicula, aliquam lacus vitae, sodales metus. Donec tincidunt nisl ut turpis gravida sodales. Aliquam sit amet ornare augue. Phasellus tristique tellus nec ante lacinia, ut facilisis augue volutpat. Nunc sodales ullamcorper lorem eu suscipit. Cras odio tortor, consectetur nec volutpat id, sagittis sed sem. Ut ultrices placerat interdum. Sed odio arcu, elementum in lobortis sed, blandit ut risus. Vivamus lobortis, ipsum et sollicitudin auctor, diam lorem euismod turpis, ut placerat quam augue a ante. Nam dapibus ligula neque.
+```jinja
+{{ test }}
+{% raw %}{{ test }}{% endraw %}
 ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit : `In quis fringilla diam. Integer turpis eros`
@@ -118,12 +118,9 @@ Etiam sed euismod mi, vitae bibendum sapien. Nullam non augue porttitor, varius 
  
 int main (int arc,char*  argv)
 {
-        printf("Bonjour\n");
- 
-        return 0;
+    printf("Bonjour\n");
+    return 0;
 }
-
-{{keyNotexist.error}}
 ```
 
 Etiam sed euismod mi:
@@ -139,7 +136,7 @@ Maximus ligula lacinia dignissim:
 | Name      | DNS             |
 |:----------|:----------------|
 | Example 1 | *example.com*   |
-| Example 2 | **example.com** |
+| Example 2 | {{testetstets}} |
 | Example 3 | ~~example.com~~ |
 
 ![My **beautiful** ~~image~~](img\website.jpg)
@@ -173,7 +170,7 @@ Lorem ipsum dolor sit amet :
 
 Phasellus facilisis dapibus interdum. Sed eget lacinia justo, non facilisis dui. Nulla facilisi.
 
-```
+```NewAwesomeLanguageWithAiBlockchainServerLessAndDeepNeuralNetwork
 Nam scelerisque luctus nibh. Sed nec elementum leo. Etiam eu urna non eros euismod congue. Aenean non risus vehicula, aliquam lacus vitae, sodales metus. Donec tincidunt nisl ut turpis gravida sodales. Aliquam sit amet ornare augue. Phasellus tristique tellus nec ante lacinia, ut facilisis augue volutpat. Nunc sodales ullamcorper lorem eu suscipit. Cras odio tortor, consectetur nec volutpat id, sagittis sed sem. Ut ultrices placerat interdum. Sed odio arcu, elementum in lobortis sed, blandit ut risus. Vivamus lobortis, ipsum et sollicitudin auctor, diam lorem euismod turpis, ut placerat quam augue a ante. Nam dapibus ligula neque.
 ```
 

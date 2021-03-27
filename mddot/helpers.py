@@ -1,8 +1,13 @@
 from lxml import etree
 
 from docx.shared import Twips
+from jinja2 import Template
 
 from logger import logger
+
+def doJinjaRender(tpl,context):
+	t = Template(tpl)
+	return t.render(context)
 
 def getMarginFromStyle(style,side):
 	margin = style._element.xpath('.//w:tblCellMar/w:%s/@w:w'%side)

@@ -3,23 +3,18 @@ import helpers
 
 from anytree import NodeMixin
 
-class AbstractNode( NodeMixin):
+class AbstractNode(NodeMixin):
 	files = None
 	
 	styles = {}
 	tplStyles = {}
-	
-	images = {}
-	tables = {}
-
-	rawxml = ""
 	
 	classByToken = {}
 	
 	def __init_subclass__(cls, tokenClass=None, **kwargs):
 		if tokenClass:
 			super().__init_subclass__(**kwargs)
-			logger.verbose("Register %s for %s" % (cls, tokenClass))
+			logger.spam("Register %s for %s" % (cls, tokenClass))
 			if cls.styles:
 				AbstractNode.styles |= cls.styles
 				cls.styles = AbstractNode.styles
@@ -77,6 +72,10 @@ class AbstractNode( NodeMixin):
 		if not id:
 			id = self.id
 		return self.files.getTplByKey(id)[0]
+
+	def getText(self):
+		logger.warning("getText isn't implemented for %s." % self.__class__)
+		return ""
 
 	@property   
 	def id(self):

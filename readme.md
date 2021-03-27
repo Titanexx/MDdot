@@ -1,5 +1,8 @@
 # MDdot
 
+[![GitHub stars](https://img.shields.io/github/stars/Titanexx/MDdot)](https://github.com/Titanexx/MDdot/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Titanexx/MDdot)](https://github.com/Titanexx/MDdot/network)
+
 ## What is it? A new useless generation tools?
 
 If you don't need a Word document at the end of an audit or a project, you're in luck!
@@ -20,6 +23,13 @@ A hello world?
 
 ## Changelog
 
+- Mk 1.5:
+    + User:
+        * Add syntax highlighting inside code blocks with [pygments](https://pygments.org)
+    + Internal:
+        * Add getText methods in nodes
+        * Remove the second rendering 
+        * Remove Images module
 - Mk 1.4:
     + User:
         * Fix bug if the MD contains jinja2 key-like strings
@@ -107,7 +117,7 @@ This endpoint generates everything (or it should :see_no_evil: :hear_no_evil: :s
         `Inline Code`
         ```
 - Link : `(example.com)[example.com]` or `[](https://www.example.com)`, use `mddotltextlink` to custom your links
-- Code block : MDdot doesn't colorize the code if you add a language (for the moment :wink:). It uses the style `mddotblockcode` which must be a paragraph style.
+- Code block : MDdot doesn't colorize the code if you add a language. It uses the style `mddotblockcode` which must be a paragraph style.
 
 This endpoint support paragraph style from your template.
 If you uses it inside a for loop, you have to use the list representation inside your loop.
@@ -242,6 +252,7 @@ Docx generation:
 
 Markdown parsing:
 - [mistletoe](https://github.com/miyuchina/mistletoe)
+- [pygments](https://pygments.org) for syntax highlighting
 
 Logging:
 - [python-verboselogs](https://github.com/xolox/python-verboselogs)

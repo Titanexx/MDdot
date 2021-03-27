@@ -6,7 +6,7 @@ from docxtpl import DocxTemplate
 
 import helpers
 from logger import logger
-from nodes import AbstractNode
+# from nodes import AbstractNode
 
 class Files():
 	TMP_FILENAME = "temp.docx"
@@ -18,7 +18,8 @@ class Files():
 
 		self.mdFilename = mdFilename
 		with open(mdFilename,'r') as f:
-			self._rawMd = f.read()
+			self.__rawMd = f.read()
+
 		self.md = Document(self._rawMd)
 
 		self.ressourcesPath = os.path.dirname(self.mdFilename)
@@ -27,6 +28,15 @@ class Files():
 
 		logger.verbose("Files : %s, %s, %s" % (mdFilename, tplFilename, outFilename))
 	
+	@property
+	def _rawMd(self):
+		return self.__rawMd
+
+	@_rawMd.setter
+	def _rawMd(self,_rawMd):
+		self.__rawMd = _rawMd
+		self.md = Document(self._rawMd)
+
 	@property
 	def tplFilename(self):
 		return self._tplFilename
