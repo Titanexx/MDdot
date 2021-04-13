@@ -1,5 +1,6 @@
-from nodes import AbstractNode
-from logger import logger
+from ..helpers import MDict
+from ..logger import logger
+from ..nodes import AbstractNode
 
 from mistletoe.block_token import List
 
@@ -15,7 +16,7 @@ class PropertiesListNode(AbstractNode, tokenClass = List):
 
 	def __init__(self, block, parent=None, children=[]):
 		super().__init__(block, parent, children)
-		self.props = {}
+		self.props = MDict()
 
 		try:
 			for item in block.children:

@@ -1,10 +1,8 @@
-import uuid
-
-from nodes import AbstractNode, TextNode
+from ..helpers import doJinjaRender, MDict
+from ..nodes import AbstractNode, TextNode
 
 from docxtpl import RichText
 from mistletoe.block_token import Table
-from helpers import doJinjaRender
 
 class TableNode(AbstractNode, tokenClass=Table):
 	TABLE = "table"
@@ -65,4 +63,4 @@ class TableNode(AbstractNode, tokenClass=Table):
 
 		xml = doJinjaRender(self.rawxml,context_table)
 		
-		return {'table':context_table, 'xml':xml}
+		return MDict({'table':context_table, 'xml':xml})

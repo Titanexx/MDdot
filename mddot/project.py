@@ -1,18 +1,18 @@
-from docxtpl import DocxTemplate
+from .files import Files
+from .logger import logger
+from .modules import AbstractModule
+from .md_parser import Parser
 
-from modules import AbstractModule
-from logger import logger
-from md_parser import Parser
-from files import Files
-
-import os
 import json
+import os
+
+from docxtpl import DocxTemplate
 
 class Project:
 	def __init__(self,mdFilename,tplFilename,outFilename):
 		self.files = Files(mdFilename,tplFilename,outFilename)
 
-		logger.info('Call modules before parsing')
+		logger.info('Calling modules before parsing')
 		for module in AbstractModule.MODULES:
 			module(self.files).runBeforeParsing()
 
@@ -21,17 +21,20 @@ class Project:
 
 		context = self.parsedTree.generateDocx()
 		logger.spam("context: %s" % json.dumps(context,default=str))
-		logger.info('Call modules before rendering')
+		logger.info('Calling modules before rendering')
 		for module in AbstractModule.MODULES:
 			module(self.files).runBeforeRendering(context)
 
-		logger.info('Rendering start')
+		logger.info('Start of rendering')
 		self.files.tpl.render(context)
 		self.files.tpl.save(outFilename)
 		self.files.tplFilename = outFilename
+		logger.info('End of rendering')
 		
-		logger.info('Call modules after rendering')
+		logger.info('Calling modules after rendering')
 		for module in AbstractModule.MODULES:
 			module(self.files).runAfterRendering(context)
 
-		logger.info('Rendering finished.')
+		logger.info('Your document is generated. Enjoy !')
+
+

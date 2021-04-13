@@ -1,5 +1,6 @@
+from .logger import LEVELS, logger, init_logger
+
 import argparse
-from logger import LEVELS, init_logger, logger
 import time
 
 __version__ = 1.0
@@ -41,7 +42,6 @@ def init_args():
 
 if __name__ == '__main__':
 	args  = init_args()
+	from .project import Project
 
-	from project import Project
-	
 	Project(args.md,args.docx,args.output)

@@ -23,6 +23,15 @@ A hello world?
 
 ## Changelog
 
+- Mk 1.6:
+    + User:
+        * Add styles
+        * Add `_full_xml`, `_header_xml` endpoint
+        * Add `mditems` python3/jinja2 endpoint for your templates
+    + Internal
+        * Fix import
+        * Remove the unnecessary second rendering which causes some bug. (MDdot is faster !)
+        * Add a internal dict class to add jinja2 capabilities in templating
 - Mk 1.5:
     + User:
         * Add syntax highlighting inside code blocks with [pygments](https://pygments.org)
@@ -82,6 +91,31 @@ You can find some mddot examples in the [example folder](./examples)
 
 If you want to discover python-docx-template (and Jinja2), try playing with their examples: [https://github.com/elapouya/python-docx-template/tree/master/tests](https://github.com/elapouya/python-docx-template/tree/master/tests)
 
+### Custom docx style
+
+MDdot can use specific word styles for some markdown elements.
+
+You have to follow some rules to get a functional style: a paragraph style (like title) will not work as a character style.
+
+The table describes the style's name and its type :
+
+|         Name          | Character style | Paragraph style | Tables Style |
+|:---------------------:|:---------------:|:---------------:|:------------:|
+|     `mddottable`      |       No        |       Noe       |      Yes     |
+|   `mddotheader<X>`    |       No        |       Yes       |      No      |
+|   `mddotblockcode`    |       No        |       Yes       |      No      |
+|  `mddottextcaption`   |       No        |       Yes       |      No      |
+| `mddottextinlinecode` |       Yes       |       No        |      No      |
+|   `mdddottextlink`    |       Yes       |       No        |      No      |
+
+Note : for the lvl1 header, `mddotheader<X>` becomes `mddotheader1`
+
+If you do not follow these guidelines, your style may not work and the generated document may be corrupted.
+
+MDdot does not provide a default text style as you have only modify your default style in your document.
+
+MDdot styles are not mandatory, as Word uses the default style if it cannot find them. 
+
 ### The variables name
 
 The heading is the variable name. Each level heading is separated by a `.`.
@@ -98,7 +132,7 @@ Markdown :
 
 Variable name: `firstheading.secondheading`:
 
-### The XML endpoint
+### The `.xml` endpoint
 
 Append `.xml` to a variable to "print" content.
 
@@ -116,11 +150,11 @@ This endpoint generates everything (or it should :see_no_evil: :hear_no_evil: :s
         ```
         `Inline Code`
         ```
-- Link : `(example.com)[example.com]` or `[](https://www.example.com)`, use `mddotltextlink` to custom your links
+- Link : `(example.com)[example.com]` or `[](https://www.example.com)`, use `mddottextlink` to custom your links
 - Code block : MDdot doesn't colorize the code if you add a language. It uses the style `mddotblockcode` which must be a paragraph style.
 
 This endpoint support paragraph style from your template.
-If you uses it inside a for loop, you have to use the list representation inside your loop.
+If you uses it inside a for loop, you have to use the list representation inside your loop (see the Styling example).
 
 #### Example
 
@@ -154,7 +188,8 @@ test
 ```
 
 Use `test[key].good.xml` with a paragraph style applied on it : 
-```
+
+```python
 {% for key, item in test.items() %}
     {{ test[key].good.xml }}
 {% endfor %}
@@ -240,6 +275,42 @@ Jinja2 key:
 - `project.properties.start_date`
 - `project.properties.end_date`
 
+### Specific endpoints
+
+All endpoints, which start with `_`, help to extend the templating capabilities.
+There are not returned with the method `mditems` in your Jinja2/docx template.
+
+#### `_full_xml`
+
+The `_full_xml` endpoint can be used if you want "print" all contents inside elements, his children and the title.
+
+If you want generate a docx file from a template where you have definied only the styles, use `{{ _full_xml }}` 
+
+##### Examples
+
+You can find 2 examples :
+- a full document generation (`{{ _full_xml }}`) : `python.exe -m mddot -m .\examples\project.md -d .\examples\full_xml.docx`
+- a full generation from a lvl2 header (`{{letter.synthesiss._full_xml }}`) : `python.exe -m mddot -m .\examples\project.md -d .\examples\full_xml.docx`
+
+![a full generation from a lvl2 header](./images/_full_xml_example.jpg)
+
+#### `_header_xml`
+
+This endpoint is used to created a title from your md header.
+
+#### Example
+
+`{{ letter.synthesis._header_xml}}`
+
+![_header_xml example](./images/_header_xml_example.jpg)
+
+### Jinja2 MDdot methods
+
+MDdot extends the Python dict class to add features inside template.
+
+List of method:
+- `mditems` : it's usefull to get only items linked from your markdown files (so you don't get the properties nodes,`_full_xml` or `_header_xml`, etc...)
+
 ## Todo list
 
 `grep -rn todo .`
@@ -252,7 +323,7 @@ Docx generation:
 
 Markdown parsing:
 - [mistletoe](https://github.com/miyuchina/mistletoe)
-- [pygments](https://pygments.org) for syntax highlighting
+- [pygments](https://pygments.org)
 
 Logging:
 - [python-verboselogs](https://github.com/xolox/python-verboselogs)
@@ -270,7 +341,12 @@ Examples:
 - You can't integrate MDdot inside a paid software without a proprietary license
 - If you are a bug hunter without any business affiliation, you can use it. (Don't hesitate to support the project :kissing_heart:)
 
-If want buy a proprietary license, send a mail to [mddot@protonmail.com](mailto:mddot@protonmail.com)
+If want buy a proprietary license, send a mail to [mddot@protonmail.com](mailto:mddot@protonmail.com).
+
+A proprietary license brings you some advantages: 
+- Direct mailing support (creation of templates, module development if needed)
+- Bug fixes before GitHub (bug fixes are always released for all in a short time)
+- Closed modules
 
 ## How to support
 

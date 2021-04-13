@@ -1,5 +1,6 @@
-from nodes import ParagraphNode
-from logger import logger
+from ..helpers import MDict
+from ..nodes import ParagraphNode
+from ..logger import logger
 
 from docxtpl import RichText
 from mistletoe.block_token import CodeFence
@@ -73,8 +74,8 @@ class CodeNode(ParagraphNode, tokenClass=CodeFence):
 		if self.hasLanguage:
 			formatter = RTFormatter(rt)
 			highlight(self.getText(),self._lexer,formatter)
-			return {'xml': self.rawxml % rt.xml}
 		else:
 			for e in self.children:
 				e.generate(rt)
-		return {'xml': (self.rawxml % (rt.xml))}
+		
+		return MDict({'xml': self.rawxml % rt.xml})

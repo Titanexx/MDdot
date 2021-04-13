@@ -1,5 +1,4 @@
-from logger import logger
-import helpers
+from ..logger import logger
 
 from anytree import NodeMixin
 
@@ -59,6 +58,7 @@ class AbstractNode(NodeMixin):
 			for st in self.files.tplDocx.styles:
 				if st.style_id == s:
 					AbstractNode.tplStyles[k] = st
+					logger.debug("%s style found." % s)
 					break
 			else:
 				logger.warning("Can't found '%s' style inside template." % s)

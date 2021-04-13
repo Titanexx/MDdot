@@ -1,8 +1,8 @@
-from mistletoe.block_token import Heading, List, Table, Paragraph, CodeFence
-from anytree import RenderTree
+from .logger import logger
+from .nodes import RootNode
 
-from logger import logger
-from nodes import RootNode
+from anytree import RenderTree
+from mistletoe.block_token import Heading, List, Table, Paragraph, CodeFence
 
 class Parser():
 	def __init__(self,files):

@@ -1,4 +1,6 @@
-from nodes import AbstractNode, TextNode
+from ..helpers import MDict
+from ..nodes import AbstractNode, TextNode
+
 from docxtpl import RichText
 from mistletoe.block_token import Paragraph
 
@@ -18,6 +20,6 @@ class ParagraphNode(AbstractNode,tokenClass=Paragraph):
 		rt = RichText()
 		for e in self.children:
 			e.generate(rt)
-			
-		return {'xml': (self.rawxml % (self.getStyleById(),rt.xml))}
+		
+		return MDict({'xml': (self.rawxml % (self.getStyleById(),rt.xml))})
 

@@ -1,21 +1,21 @@
+from ..helpers import getBlockType, getMarginFromStyle, MDict
+from ..logger import logger
+from ..nodes import AbstractNode
+
 import os
 from copy import deepcopy
-
-from nodes import AbstractNode
-from logger import logger
-from helpers import getBlockType, getMarginFromStyle
 
 from PIL import Image
 from docx.shared import Length
 from docxtpl import RichText, InlineImage
 from html import escape as escapeXML
 
-
-
 class TextNode(AbstractNode, tokenClass='*'):
 	INLINE_CODE = "inlineCode"
 	LINK_STYLE = "link"
 	CAPTION = "caption"
+
+	# to override mddot text style, change your normal style (which must be the default inside your docx template)
 	styles = {
 		INLINE_CODE: "mddottextinlinecode",
 		LINK_STYLE:"mddottextlink",
@@ -45,15 +45,23 @@ class TextNode(AbstractNode, tokenClass='*'):
 	# If all is ok, image otken must be alone in paragraph token
 	captionxml = """</w:p><w:p><w:pPr><w:pStyle w:val="%s"/></w:pPr>"""
 
-	def __init__(self, block, parent=None, children=[]):
+	def __init__(self, block, parent=None, children=[],options=None):
 		super().__init__(block, parent, children)
 		self.options = []
 		self.text = []
-
-		self.parse(self._block,{})
+		if not options:
+			options = {}
+		self.parse(self._block,options)
 
 	def getText(self):
 		return ''.join(self.text)
+
+	def getTextForId(self):
+		text = ""
+		for i in range(len(self.text)):
+			if 'style' not in self.options[i] or self.options[i]['style'] != self.styles[self.LINK_STYLE]:
+				text += self.text[i]
+		return text
 
 	def __str__(self):
 		return "Text Node : %s | %s" % (repr(self.text), self.options)
@@ -94,17 +102,27 @@ class TextNode(AbstractNode, tokenClass='*'):
 
 			logger.debug("Load image %s inside %s." % (src,self.files.tplFilename))
 			image = InlineImage(self.files.tpl,src,imgWidth)
-		else:
-			logger.warning("Inserting image in %s failed. Key is not found." % self.id)
 
-		self._addXML(str(image)[12:-31],{})
-		self._addXML(self.captionxml % (self.styles[self.CAPTION]),{})
+			self._addXML(str(image)[12:-31],{})
+
+		else:
+			logger.error("Inserting image in %s failed. Key is not found." % self.id)
 
 		if block.title:
+			self._addXML(self.captionxml % (self.styles[self.CAPTION]),{})
 			self._addText(block.title,{'style':self.styles[self.CAPTION]})
 		elif block.children:
+			self._addXML(self.captionxml % (self.styles[self.CAPTION]),{})
 			self._parseChild(block,{'style':self.styles[self.CAPTION]})
-		
+	
+	def _setLink(self,block,options):
+		options['url_id'] = self.files.tpl.build_url_id(block.target)
+		options['style'] = self.styles[self.LINK_STYLE]
+		if block.children:
+			self._parseChild(block,options)
+		else:
+			self._addText(block.target, options)
+
 	def _parseChild(self,block,options):
 		for childBlock in block.children:
 			self.parse(childBlock,deepcopy(options))
@@ -121,12 +139,7 @@ class TextNode(AbstractNode, tokenClass='*'):
 		elif blockType == self.IMAGE:
 			self._setImage(block)
 		elif blockType == self.LINK:
-			options['url_id'] = self.files.tpl.build_url_id(block.target)
-			options['style'] = self.styles[self.LINK_STYLE]
-			if block.children:
-				self._parseChild(block,options)
-			else:
-				self._addText(block.target, options)
+			self._setLink(block,options)
 		elif blockType == self.STRONG:
 			options['bold'] = True
 			self._parseChild(block,options)

@@ -1,12 +1,11 @@
+from . import helpers
+from .logger import logger
+
 import os
 import re
 
-from mistletoe import Document
 from docxtpl import DocxTemplate
-
-import helpers
-from logger import logger
-# from nodes import AbstractNode
+from mistletoe import Document
 
 class Files():
 	TMP_FILENAME = "temp.docx"
@@ -46,7 +45,7 @@ class Files():
 		self._tplFilename = tplFilename
 		self.tpl = DocxTemplate(tplFilename)
 		self.tplDocx = self.tpl.docx
-		self._buildkeysTplCache()	
+		self._buildkeysTplCache()
 
 	def _buildkeysTplCache(self):
 		self.keysTplCache = {}
@@ -76,6 +75,7 @@ class Files():
 
 	def getTplByKey(self, key):
 		if key in self.keysTplCache:
+			# Raw id
 			return self.keysTplCache[key]
 		else:
 			# handle for loop
@@ -83,4 +83,12 @@ class Files():
 			for tplKey in self.keysTplCache:
 				if helpers.compareKeys(key,tplKey):
 					return self.keysTplCache[tplKey]
+			else:
+				# _full_xml
+				keys = key.split('.')
+				for i in range(len(keys),-1,-1):
+					tmpKey = '.'.join(keys[:i]+["_full_xml"])
+					if tmpKey in  self.keysTplCache:
+						return self.keysTplCache[tmpKey]
+
 			return ("","")

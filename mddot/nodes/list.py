@@ -1,9 +1,12 @@
-from nodes import AbstractNode
-from logger import logger
+from ..helpers import MDict
+from ..logger import logger
+from ..nodes import AbstractNode
+
+import re
+
+from docx.styles.style import _NumberingStyle
 from docxtpl import RichText
 from mistletoe.block_token import List
-from docx.styles.style import _NumberingStyle
-import re
 
 class ListNode(AbstractNode,tokenClass = List):
 	generatedListNumId = 28004
@@ -66,4 +69,4 @@ class ListNode(AbstractNode,tokenClass = List):
 			# Need to restart index for an ordered list
 			ListNode.generatedListNumId += 1
 
-		return {'xml':xml}
+		return MDict({'xml':xml})

@@ -1,9 +1,9 @@
-from lxml import etree
+from .logger import logger
 
 from docx.shared import Twips
 from jinja2 import Template
+from lxml import etree
 
-from logger import logger
 
 def doJinjaRender(tpl,context):
 	t = Template(tpl)
@@ -39,3 +39,20 @@ def compareKeys(key1, key2):
 		if keys1[i] != keys2[i] and keys2[i] != "*":
 			return False
 	return True
+
+class MDict(dict):  # dicts take a mapping or iterable as their optional first argument
+	INTERNALS = [
+		"properties",
+		"_full_xml", "xml",
+		"_header_xml",
+	]
+
+	def items(self):
+		return super().items()
+
+	def mdItems(self):
+		res = []
+		for k,v in super().items():
+			if not k.startswith('_') and k not in self.INTERNALS:
+				res.append((k,v))
+		return res
