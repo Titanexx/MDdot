@@ -3,6 +3,10 @@
 [![GitHub stars](https://img.shields.io/github/stars/Titanexx/MDdot)](https://github.com/Titanexx/MDdot/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Titanexx/MDdot)](https://github.com/Titanexx/MDdot/network)
 
+<p align="center">
+<img width="100" alt="logo" src="https://raw.githubusercontent.com/Titanexx/MDdot/master/images/logo.png">
+</p>
+
 ## What is it? A new useless generation tools?
 
 If you don't need a Word document at the end of an audit or a project, you're in luck!
