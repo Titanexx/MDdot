@@ -4,7 +4,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/Titanexx/MDdot)](https://github.com/Titanexx/MDdot/network)
 
 <p align="center">
-<img width="100" alt="logo" src="https://raw.githubusercontent.com/Titanexx/MDdot/master/images/logo.png">
+<img width="350" alt="logo" src="https://raw.githubusercontent.com/Titanexx/MDdot/master/images/logo.png">
 </p>
 
 ## What is it? A new useless generation tools?
