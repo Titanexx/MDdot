@@ -335,15 +335,11 @@ Logging:
 
 ## License
 
-MDdot is licensed under a proprietary license.  
-The source code is licensed the CC BY-NC-SA 4.0 license.
+NightWriter is dual-licensed - Copyright 2021 Titanex
 
-You are not allowed to make a profit with it.
-
-Examples:
-- You can't use MDdot to generate a document for a customer without a proprietary license
-- You can't integrate MDdot inside a paid software without a proprietary license
-- If you are a bug hunter without any business affiliation, you can use it. (Don't hesitate to support the project :kissing_heart:)
+If you want commercialize service which include NightWriter, you need a commercial, non-free license.
+If you want a direct support or specific development, you need a non-free license.
+Otherwise, NightWriter can be used without charge under the terms of GPLv3.
 
 If want buy a proprietary license, send a mail to [mddot@protonmail.com](mailto:mddot@protonmail.com).
 
