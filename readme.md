@@ -337,11 +337,11 @@ Logging:
 
 NightWriter is dual-licensed - Copyright 2021 Titanex
 
-If you want commercialize service which include NightWriter, you need a commercial, non-free license.
+If you want commercialize service which include MDdot, you need a commercial, non-free license.
 If you want a direct support or specific development, you need a non-free license.
 Otherwise, NightWriter can be used without charge under the terms of GPLv3.
 
-If want buy a proprietary license, send a mail to [mddot@protonmail.com](mailto:mddot@protonmail.com).
+If want buy a proprietary license, send a mail to [titanex@protonmail.com](mailto:titanex@protonmail.com).
 
 A proprietary license brings you some advantages: 
 - Direct mailing support (creation of templates, module development if needed)
